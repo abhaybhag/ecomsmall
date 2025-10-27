@@ -1,13 +1,15 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import MainContext, { contextApi } from '../compoents/MainContext'
 import { Link } from 'react-router'
+import { GiAllSeeingEye } from 'react-icons/gi'
+
 
 
 export default function Cart() {
     let { cart,
         Setcart,
         totalprice,
-        shipping
+        shipping,
     } = useContext(contextApi)
 
 
@@ -65,13 +67,12 @@ export default function Cart() {
                         <h1 className="font-semibold text-2xl border-b pb-8">Order Summary</h1>
                         <div className="flex justify-between mt-10 mb-5">
                             <span className="font-semibold text-sm uppercase">Items 3</span>
-                            <span className="font-semibold text-sm">{totalprice}</span>
+                            <span className="font-semibold text-sm">{totalprice+`\u20B9`}</span>
                         </div>
                         <div>
                             <label className="font-medium inline-block mb-3 text-sm uppercase">
-                                Shipping &nbsp;
                             </label>
-                            <span className='uppercase'>{totalprice>500 ? "standard shipping"+ " "+shipping : ""}</span>
+                            <span className='uppercase'>{totalprice > 500  ? "standard shipping" + " " + `${shipping} \u20B9'` : ""}</span>
 
                         </div>
                         <div className="py-10">
@@ -94,7 +95,7 @@ export default function Cart() {
                         <div className="border-t mt-8">
                             <div className="flex font-semibold justify-between py-6 text-sm uppercase">
                                 <span>Total cost</span>
-                                <span>{totalprice+shipping}</span>
+                                <span>{totalprice + shipping+`\u20B9`}</span>
                             </div>
                             <button className="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full">
                                 Checkout
@@ -117,12 +118,23 @@ export default function Cart() {
 }
 
 function Cartcomponent({ value }) {
+    let { image, price, id, name, qty } = value
+
+    let [quantity1, Setquantity1] = useState(qty)
+
+
+
+
     let { cart,
         Setcart,
         totalprice,
         shipping
     } = useContext(contextApi)
-    let { image, price, id, name, qty } = value
+
+
+
+
+
     let singleItemRemove = () => {
         let alreadyItem = cart.filter((products, index) => products.id != id)
         Setcart(alreadyItem)
@@ -132,6 +144,40 @@ function Cartcomponent({ value }) {
         )
 
     }
+
+
+
+
+    useEffect(() => {
+
+        let objquantityupdate = cart.filter((values, index) => {
+            if (values.id === id) {
+                values.qty = quantity1
+                
+
+
+            }
+            return values
+
+
+
+
+        })
+
+        Setcart(objquantityupdate)
+
+
+
+
+
+
+
+
+
+    }, [quantity1])
+
+
+
 
     return (
 
@@ -156,15 +202,18 @@ function Cartcomponent({ value }) {
                 <svg
                     className="fill-current text-gray-600 w-3"
                     viewBox="0 0 448 512"
+                    onClick={() => Setquantity1(quantity1 >1 ? quantity1 - 1 : 1)}
+
+                    
                 >
                     <path d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
                 </svg>
                 <input
                     className="mx-2 border text-center w-8"
                     type="text"
-                    defaultValue={1}
+                    value={quantity1}
                 />
-                <svg
+                <svg onClick={() => Setquantity1(quantity1 + 1)}
                     className="fill-current text-gray-600 w-3"
                     viewBox="0 0 448 512"
                 >
@@ -173,10 +222,10 @@ function Cartcomponent({ value }) {
             </div>
             <span className="text-center w-1/5 font-semibold text-sm">
 
-                {price}
+                {price+`\u20B9`}
             </span>
             <span className="text-center w-1/5 font-semibold text-sm">
-                {price * qty}
+                {price * qty+`\u20B9`}
             </span>
         </div>
 
