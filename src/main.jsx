@@ -10,7 +10,6 @@ import Login from './pages/Login.jsx'
 import ProductDetails from './pages/ProductDetails.jsx'
 import MainContext from './compoents/MainContext.jsx'
 import Layout from './pages/Layout.jsx'
-import { Products } from './common/products.jsx'
 import Productmyntra from './common/Productmyntra.jsx'
 import Cart from './common/Cart.jsx'
 
