@@ -1,7 +1,6 @@
 import React, { use, useContext, useState } from 'react'
 import Header from '../common/Header'
 import { FaMinus, FaYoutube } from "react-icons/fa";
-import { Products } from '../common/products';
 import { FaHeart, FaStar, FaPlus } from "react-icons/fa";
 import Footer from '../common/Footer';
 import Button from '../common/Button';
